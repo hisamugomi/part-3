@@ -40,25 +40,10 @@ app.get('/api/info', (request, response) => {
 }
 )
 
-app.post('/api/notes', (request, response) => {
-
-
-    const note = request.body
-    console.log(note)
-    response.json(persons)
-})
-
-app.post('/api/notess', (request, response) => {
-  const maxId = persons.length > 0
-    ? Math.max(...persons.map(n => Number(n.id))) 
-    : 0
-
-  const note = request.body
-  note.id = String(maxId + 1)
-
-  persons = persons.concat(note)
-
-  response.json(note)
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const person = persons.find(person => person.id === id)
+  response.json(person)
 })
 
 
