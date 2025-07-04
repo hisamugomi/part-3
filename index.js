@@ -14,8 +14,17 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
+// morgan.token('id', function getId (req) {
+//   return req.id
+// })
 
-app.use(morgan('tiny'))
+morgan.token('type', function (req, res) {
+    const returningval = JSON.stringify(req.body) 
+    return (returningval)})
+
+
+// app.use(morgan(':type'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :type'))
 // app.use(requestLogger)
 
 // morgan('tiny')
@@ -79,19 +88,19 @@ app.post('/api/persons', (request, response) => {
     person = request.body
 
     if (!person.name) {
-        return response.status(400).json({
+        return response.status(200).json({
             error: 'name is missing'
         })
     }
     
     if (!person.number) {
-        return response.status(400).json({
+        return response.status(200).json({
             error: 'number is missing'
         })
     }
 
     if (persons.find(existingperson => existingperson.name === person.name)) {
-        return response.status(400).json({
+        return response.status(200).json({
             error: 'name must be unique'
         })
     }
@@ -104,7 +113,7 @@ app.post('/api/persons', (request, response) => {
 })
 
 const PORT = 3001
-app.listen(PORT, () => {
+app.listen(PORT, () => {   
   console.log(`Server running on port ${PORT}`)
 })
 
