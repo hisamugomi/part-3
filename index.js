@@ -59,6 +59,23 @@ function getRandomInt(max) {
 app.post('/api/persons', (request, response) => {
     person = request.body
 
+    if (!person.name) {
+        return response.status(400).json({
+            error: 'name is missing'
+        })
+    }
+    
+    if (!person.number) {
+        return response.status(400).json({
+            error: 'number is missing'
+        })
+    }
+
+    if (persons.find(existingperson => existingperson.name === person.name)) {
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+    }
     
     person.id = getRandomInt(10000)
     persons = persons.concat(person)
